@@ -53,6 +53,7 @@
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
+            <!-- Inner Row -->
             <div class="col-xl-5 col-lg-6 col-md-8">
 
                 <!-- BJMPCI Logo -->
@@ -65,10 +66,9 @@
                             <p>CRIME</p><span>INDEX</span>
                         </div>
                     </div>
-
                 </div>
 
-
+                <!-- Login Form -->
                 <div class="card border-0 shadow-lg my-4">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
@@ -76,9 +76,10 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Please Login</h1>
                                     </div>
-                                    <form class="user" action="index.php?action=authenticate" method="POST">
+                                    <form class="user" action="{{ route('postLogin') }}" method="post">
+                                    @csrf
                                         <div class="form-group">
                                             <input 
                                                 type="username" 
@@ -95,18 +96,28 @@
                                                 placeholder="Password" 
                                                 name="password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input 
-                                                    type="checkbox" 
-                                                    class="custom-control-input" 
-                                                    id="check">
-                                                <label class="custom-control-label" for="customCheck">
-                                                    RememberMe
-                                                </label>
-                                            </div>
+                                        
+                                        @error('username')
+                                        <div class="alert alert-warning px-3 py-1" style="font-size: 0.9em" role="alert">
+                                        {{ $message }}
                                         </div>
-                                        <button class="btn btn-dark btn-user btn-block" type="submit">
+                                        @enderror
+
+                                        @error('password')
+                                        <div class="alert alert-warning px-3 py-1" style="font-size: 0.9em" role="alert">
+                                        {{ $message }}
+                                        </div>
+                                        @enderror
+                                        
+
+                                        @if (session('error'))
+                                        <div class="alert alert-danger px-3 py-1" style="font-size: 0.9em" role="alert">
+                                            A simple warning alert—check it out!
+                                        </div>
+                                        @endif
+                                        
+
+                                        <button class="btn btn-dark btn-user btn-block mt-4" type="submit">
                                         Login
                                         </button>
                                     </form>
