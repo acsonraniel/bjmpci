@@ -14,7 +14,11 @@ class CrimeController extends Controller
      */
     public function index()
     {
-        //
+        $data=[
+            'title'=>'Crimes'
+        ];
+
+        return view('admin.crime',$data);
     }
 
     /**

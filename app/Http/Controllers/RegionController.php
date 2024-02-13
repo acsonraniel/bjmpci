@@ -14,7 +14,11 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        $data=[
+            'title'=>'Regions'
+        ];
+
+        return view('admin.region',$data);
     }
 
     /**

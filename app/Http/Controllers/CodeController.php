@@ -14,7 +14,11 @@ class CodeController extends Controller
      */
     public function index()
     {
-        //
+        $data=[
+            'title'=>'System Codes'
+        ];
+
+        return view('admin.code',$data);
     }
 
     /**

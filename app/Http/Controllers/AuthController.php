@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+//allows hashing of password
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function getLogin(){
+    public function getLogin(){    
+        // $pass = "admin123";
+        // $passhash = Hash::make($pass);
+        // echo $passhash;
+
         return view('admin.login');
     }
 
@@ -24,10 +33,16 @@ class AuthController extends Controller
         ],$request->password);
  
         if($validated){
-            return redirect()->route('dashboard')->with('success','Login Successfull');
+            return redirect()->route('crime');
         }else{
             return redirect()->back()->with('error','Invalid credentials');
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('getLogin');
     }
 
 }

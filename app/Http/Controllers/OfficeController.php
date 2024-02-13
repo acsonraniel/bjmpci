@@ -14,7 +14,11 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        //
+        $data=[
+            'title'=>'Offices'
+        ];
+
+        return view('admin.office',$data);
     }
 
     /**

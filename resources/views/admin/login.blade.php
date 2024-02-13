@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/ci_icon.png') }}">
-    <title>BJMPCI - Login</title>
+    <title>BJMP-CI | Login</title>
 
     <!-- Custom fonts for this template-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,23 +96,23 @@
                                                 placeholder="Password" 
                                                 name="password">
                                         </div>
-                                        
+
                                         @error('username')
                                         <div class="alert alert-warning px-3 py-1" style="font-size: 0.9em" role="alert">
-                                        {{ $message }}
+                                            {{ $message }}
                                         </div>
                                         @enderror
 
                                         @error('password')
                                         <div class="alert alert-warning px-3 py-1" style="font-size: 0.9em" role="alert">
-                                        {{ $message }}
+                                            {{ $message }}
                                         </div>
                                         @enderror
                                         
 
                                         @if (session('error'))
                                         <div class="alert alert-danger px-3 py-1" style="font-size: 0.9em" role="alert">
-                                            A simple warning alert—check it out!
+                                            {{session('error')}}
                                         </div>
                                         @endif
                                         
