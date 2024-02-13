@@ -34,6 +34,10 @@
         color: #BEBEBE !important;
     }
 
+    .nav-item, .active a{
+        font-weight: normal !important;
+    }
+    
     .table-responsive, .table{
         font-size: 0.95em !important;
     }
@@ -51,11 +55,6 @@
         white-space: nowrap;
         width: 1%;
     }
-
-    .nav-item, .active a{
-        font-weight: normal !important;
-    }
-
 </style>
 
     <!-- Custom styles for this template-->
@@ -78,12 +77,12 @@
             <!-- Include Top Bar -->
             <div id="content">
                 @include('admin.partials.layout-topbar')
+            
+                <!-- Main Content -->
+                @yield('content-header')
+
+                @yield('body')
             </div>
-
-            <!-- Main Content -->
-            @yield('content-header')
-
-            @yield('body')
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -118,7 +117,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Are you sure you want to Logout?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>

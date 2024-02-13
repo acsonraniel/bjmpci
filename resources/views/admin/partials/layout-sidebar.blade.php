@@ -3,7 +3,7 @@ $current_route=request()->route()->getName();
 @endphp
 
 <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
@@ -33,17 +33,18 @@ $current_route=request()->route()->getName();
     </li>
 
     <!-- Nav Item - Pages Libraries Menu -->
-    <li class="nav-item">
+    <li class="nav-item {{ $current_route == 'region' || $current_route == 'office' || $current_route == 'code' ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-book"></i>
             <span>Library</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ $current_route == 'region' || $current_route == 'office' || $current_route == 'code' ? 'show' : 'collapse' }}" 
+        aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('region') }}">Regions</a>
-                <a class="collapse-item" href="{{ route('office') }}">Offices</a>
-                <a class="collapse-item" href="{{ route('code') }}">System Codes</a>
+                <a class="collapse-item mb-1 {{ $current_route=='region'?'active':'' }}" href="{{ route('region') }}">Regions</a>
+                <a class="collapse-item mb-1 {{ $current_route=='office'?'active':'' }}" href="{{ route('office') }}">Offices</a>
+                <a class="collapse-item {{ $current_route=='code'?'active':'' }}" href="{{ route('code') }}">System Codes</a>
             </div>
         </div>
     </li>

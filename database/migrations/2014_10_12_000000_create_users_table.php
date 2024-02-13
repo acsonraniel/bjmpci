@@ -21,7 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('region');
             $table->string('username')->unique();
             $table->string('password');
-            $table->boolean('is_admin')->default(false);
+            $table->string('role');
+            $table->boolean('is_user')->default(false);
             $table->timestamp('user_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

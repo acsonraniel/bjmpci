@@ -29,7 +29,7 @@ class AuthController extends Controller
         $validated=auth()->attempt([
             'username'=>$request->username,
             'password'=>$request->password,
-            'is_admin'=>1
+            'is_user'=>1
         ],$request->password);
  
         if($validated){
