@@ -17,6 +17,7 @@ class CreateOfficeTable extends Migration
             $table->id();
             $table->string('office');
             $table->integer('region');
+            $table->string('officer');
             $table->timestamps();
         });
     }
