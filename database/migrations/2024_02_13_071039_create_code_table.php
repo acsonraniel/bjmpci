@@ -17,6 +17,7 @@ class CreateCodeTable extends Migration
             $table->id();
             $table->string('category');
             $table->string('value');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

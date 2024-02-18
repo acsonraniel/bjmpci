@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Office;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
 class OfficeController extends Controller
@@ -14,11 +15,10 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $data=[
-            'title'=>'Offices'
-        ];
+        $offices = Office::all();
+        $regions = Region::all();
 
-        return view('admin.office',$data);
+        return view('admin.office',['offices'=>$offices,'regions'=>$regions,'title'=>'Offices']);
     }
 
     /**
@@ -40,6 +40,15 @@ class OfficeController extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'region' => 'required',
+            'office' => 'required',
+            'abbriv' => 'required',
+            'officer' => 'nullable'
+        ]);
+
+        $Office = Office::create($validatedData);
+        return redirect('office')->with('flash_message','Region added succesfuly!');
     }
 
     /**

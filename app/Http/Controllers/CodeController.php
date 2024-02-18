@@ -14,11 +14,8 @@ class CodeController extends Controller
      */
     public function index()
     {
-        $data=[
-            'title'=>'System Codes'
-        ];
-
-        return view('admin.code',$data);
+        $codes = Code::all();
+        return view('admin.code',['codes'=> $codes, 'title'=>'System Codes'] );
     }
 
     /**
@@ -39,7 +36,15 @@ class CodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate the data request
+        $validatedData = $request->validate([
+            'category' => 'required',
+            'value' => 'required|max:255',
+            'description' => 'nullable'
+        ]);
+
+        $Code = Code::create($validatedData);
+        return redirect('code')->with('flash_message','System Code added succesfuly!');
     }
 
     /**

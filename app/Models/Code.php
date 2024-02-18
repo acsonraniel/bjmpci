@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Code extends Model
 {
     use HasFactory;
+    protected $table = 'tbl_code';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'category',
+        'value',
+        'description'
+    ];
 }

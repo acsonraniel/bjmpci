@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Region;
+use App\Models\Code;
 use Illuminate\Http\Request;
 
 class RegionController extends Controller
@@ -14,11 +15,10 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $data=[
-            'title'=>'Regions'
-        ];
+        $regions = Region::all();
+        $codes = Code::all();
 
-        return view('admin.region',$data);
+        return view('admin.region',['regions'=>$regions,'codes'=>$codes,'title'=>'Regions']);
     }
 
     /**
@@ -39,7 +39,17 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validatedData = $request->validate([
+            'region' => 'required',
+            'rank' => 'required',
+            'name' => 'required',
+            'address' => 'nullable',
+            'landline' => 'nullable'
+        ]);
+
+        $Region = Region::create($validatedData);
+        return redirect('region')->with('flash_message','Region added succesfuly!');
     }
 
     /**

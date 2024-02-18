@@ -29,3 +29,10 @@ Route::get('/admin/user',[UserController::class,'index'])->name('user');
 Route::get('/admin/region',[RegionController::class,'index'])->name('region');
 Route::get('/admin/office',[OfficeController::class,'index'])->name('office');
 Route::get('/admin/code',[CodeController::class,'index'])->name('code');
+
+// Route::post('/region',RegionController::class,'store');
+Route::resource('/code',CodeController::class);
+Route::resource('/region',RegionController::class);
+Route::resource('/office',OfficeController::class);
+Route::resource('/user',UserController::class);
+Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);
