@@ -35,4 +35,7 @@ Route::resource('/code',CodeController::class);
 Route::resource('/region',RegionController::class);
 Route::resource('/office',OfficeController::class);
 Route::resource('/user',UserController::class);
+Route::resource('/crime',CrimeController::class);
+
+
 Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);

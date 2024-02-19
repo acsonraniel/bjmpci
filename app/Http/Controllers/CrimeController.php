@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crime;
+use App\Models\Code;
 use Illuminate\Http\Request;
 
 class CrimeController extends Controller
@@ -14,11 +15,10 @@ class CrimeController extends Controller
      */
     public function index()
     {
-        $data=[
-            'title'=>'Crimes'
-        ];
+        $crimes = Crime::all();
+        $codes = Code::all();
 
-        return view('admin.crime',$data);
+        return view('admin.crime',['crimes'=>$crimes,'codes'=>$codes,'title'=>'Crimes']);
     }
 
     /**
@@ -39,7 +39,21 @@ class CrimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'type' => 'nullable',
+            'group' => 'nullable',
+            'crime' => 'required',
+            'minYear' => 'required',
+            'minMonth' => 'required',
+            'maxDay' => 'required',
+            'maxYear' => 'required',
+            'maxMonth' => 'required',
+            'maxDay' => 'required',
+            'bailable' => 'required',
+        ]);
+
+        $Crime = Crime::create($validatedData);
+        return redirect('crime')->with('flash_message','Crime added succesfuly!');
     }
 
     /**

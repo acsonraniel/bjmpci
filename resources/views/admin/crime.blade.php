@@ -7,6 +7,19 @@
 
 <div class="container-fluid">
 
+    @if(session('flash_message'))
+    <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
+        {{ session('flash_message') }}
+    </div>
+    @endif
+
+    <script>
+        // Automatically close the flash message after 3 seconds (3000 milliseconds)
+        setTimeout(function() {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 3000);
+    </script>
+
     <!-- Page Heading -->
     <h1 class="h5 mb-4 text-gray-800">Crimes</h1>
 
@@ -28,8 +41,8 @@
                             <th class="fit">Type</th>
                             <th class="fit">Group</th>
                             <th>Crime</th>
-                            <th class="fit">Min Sentence</th>
-                            <th class="fit">Max Sentence</th>
+                            <th>Min Sentence</th>
+                            <th>Max Sentence</th>
                             <th class="fit">Bailable</th>
                             <th class="fit">Action</th>
                         </tr>
@@ -46,13 +59,27 @@
                         </tr>
                     </tfoot>
                     <tbody>
+                        @foreach ($crimes as $item)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                @php
+                                    $code = \App\Models\Code::find($item->type);
+                                    echo $code ? $code->value : '';
+                                @endphp
+                            </td>
+                            <td>{{ $item->group }}</td>
+                            <td>{{ $item->crime }}</td>
+                            <td>
+                                {{ $item->minYear ?? '0' }}<small class="text-muted"> Year/s</small>
+                                {{ $item->minMonth ?? '0' }}<small class="text-muted"> Month/s</small>
+                                {{ $item->minDay ?? '0' }}<small class="text-muted"> Day/s</small>
+                            </td>
+                            <td>
+                                {{ $item->maxYear ?? '0' }}<small class="text-muted"> Year/s</small>
+                                {{ $item->maxMonth ?? '0' }}<small class="text-muted"> Month/s</small>
+                                {{ $item->maxDay ?? '0' }}<small class="text-muted"> Day/s</small>
+                            </td>
+                            <td>{{ $item->bailable == '1' ? 'Yes' : 'No' }}</td>
                             <td class="py-2">
                                 <a class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#crimeUpdateModal">
                                     <i class="fa-solid fa-pen"></i>
@@ -61,7 +88,8 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>
-                        </tr>
+                        </tr>        
+                        @endforeach
                     </tbody>
                 </table>
             </div>

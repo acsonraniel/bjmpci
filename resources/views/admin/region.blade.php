@@ -61,7 +61,7 @@
                             <td>
                                 @php
                                     $code = \App\Models\Code::find($item->rank);
-                                    echo $code ? $code->value : 'Unknown Rank';
+                                    echo $code ? $code->value : '';
                                 @endphp
 
                                 {{ $item->name }}

@@ -42,8 +42,8 @@ class RegionController extends Controller
 
         $validatedData = $request->validate([
             'region' => 'required',
-            'rank' => 'required',
-            'name' => 'required',
+            'rank' => 'nullable',
+            'name' => 'nullable',
             'address' => 'nullable',
             'landline' => 'nullable'
         ]);

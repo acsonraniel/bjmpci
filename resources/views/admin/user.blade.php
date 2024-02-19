@@ -6,6 +6,19 @@
 @section('body')
 
 <div class="container-fluid">
+    
+    @if(session('flash_message'))
+    <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
+        {{ session('flash_message') }}
+    </div>
+    @endif
+
+    <script>
+        // Automatically close the flash message after 3 seconds (3000 milliseconds)
+        setTimeout(function() {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 3000);
+    </script>
 
     <!-- Page Heading -->
     <h1 class="h5 mb-4 text-gray-800">Users</h1>
