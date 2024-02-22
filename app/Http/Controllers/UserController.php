@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function getOffices($regionId)
     {
-        $offices = Office::where('id', $regionId)->get();
+        $offices = Office::where('region', $regionId)->get();
         return response()->json($offices);
     }
 
