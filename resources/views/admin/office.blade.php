@@ -64,7 +64,7 @@
                                 @php
                                 $region = \App\Models\Region::find($item->region);
                                 echo $region ? $region->region : 'Unknown Region';
-                            @endphp
+                                @endphp
                             </td>
                             <td class="py-2">
                                 <a class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#officeUpdateModal">

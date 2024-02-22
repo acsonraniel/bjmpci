@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function getLogin(){    
-        // $pass = "admin123";
-        // $passhash = Hash::make($pass);
-        // echo $passhash;
 
         return view('admin.login');
     }

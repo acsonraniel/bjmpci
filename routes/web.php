@@ -38,4 +38,5 @@ Route::resource('/user',UserController::class);
 Route::resource('/crime',CrimeController::class);
 
 
+
 Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);

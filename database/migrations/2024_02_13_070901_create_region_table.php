@@ -16,10 +16,10 @@ class CreateRegionTable extends Migration
         Schema::create('tbl_region', function (Blueprint $table) {
             $table->id();
             $table->string('region');
-            $table->string('rank');
-            $table->string('name');
-            $table->string('address');
-            $table->string('landline');
+            $table->string('rank')->nullable();
+            $table->string('name')->nullable();
+            $table->text('address')->nullable();
+            $table->string('landline')->nullable();
             $table->timestamps();
         });
     }

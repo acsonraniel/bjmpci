@@ -16,8 +16,9 @@ class CreateOfficeTable extends Migration
         Schema::create('tbl_office', function (Blueprint $table) {
             $table->id();
             $table->string('office');
-            $table->integer('region');
-            $table->string('officer');
+            $table->string('region');
+            $table->string('abbriv');
+            $table->string('officer')->nullable();
             $table->timestamps();
         });
     }
