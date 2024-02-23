@@ -43,12 +43,12 @@ class OfficeController extends Controller
         $validatedData = $request->validate([
             'region' => 'required',
             'office' => 'required',
-            'abbriv' => 'required',
+            'abbrev' => 'required',
             'officer' => 'nullable'
         ]);
 
         $Office = Office::create($validatedData);
-        return redirect('office')->with('flash_message','Region added succesfuly!');
+        return redirect('office')->with('flash_message','Office added succesfuly!');
     }
 
     /**

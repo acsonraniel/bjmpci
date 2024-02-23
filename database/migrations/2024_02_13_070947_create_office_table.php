@@ -17,7 +17,7 @@ class CreateOfficeTable extends Migration
             $table->id();
             $table->string('office');
             $table->string('region');
-            $table->string('abbriv');
+            $table->string('abbrev');
             $table->string('officer')->nullable();
             $table->timestamps();
         });

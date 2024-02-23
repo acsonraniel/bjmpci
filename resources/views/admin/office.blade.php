@@ -39,7 +39,7 @@
                     <thead>
                         <tr>
                             <th>Office Name</th>
-                            <th>Abbriviation</th>
+                            <th>Abbreviation</th>
                             <th>Head Officer</th>
                             <th>Region</th>
                             <th class="fit">Action</th>
@@ -48,7 +48,7 @@
                     <tfoot>
                         <tr>
                             <th>Office Name</th>
-                            <th>Abbriviation</th>
+                            <th>Abbreviation</th>
                             <th>Head Officer</th>
                             <th>Region</th>
                             <th class="fit">Action</th>

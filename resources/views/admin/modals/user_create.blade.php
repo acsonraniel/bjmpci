@@ -121,7 +121,7 @@ aria-hidden="true">
                 data.forEach(function(office) {
                     var option = document.createElement('option');
                     option.value = office.id;
-                    option.textContent = office.abbriv;
+                    option.textContent = office.abbrev;
                     officeSelect.appendChild(option);
                 });
             });

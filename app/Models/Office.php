@@ -13,7 +13,7 @@ class Office extends Model
     protected $fillable = [
         'region',
         'office',
-        'abbriv',
+        'abbrev',
         'officer'
     ];
 }

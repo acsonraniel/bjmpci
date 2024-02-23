@@ -34,12 +34,12 @@
                     >
                 </div>
                 <div class="mb-3">
-                    <label for="abbriv" class="form-label text-primary mb-1">Abbriviation</label>
+                    <label for="abbrev" class="form-label text-primary mb-1">Abbreviation</label>
                     <input 
                         type="text" 
                         class="form-control" 
-                        id="abbriv" 
-                        name="abbriv"
+                        id="abbrev" 
+                        name="abbrev"
                         required
                     >
                 </div>
