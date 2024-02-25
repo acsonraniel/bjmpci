@@ -15,4 +15,21 @@ class Code extends Model
         'value',
         'description'
     ];
+
+    protected $guarded = [];
+
+    public function regions()
+    {
+        return $this->hasMany(Region::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function crimes()
+    {
+        return $this->hasMany(Crime::class);
+    }
 }

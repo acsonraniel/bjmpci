@@ -7,18 +7,30 @@
 
 <div class="container-fluid">
     
-    @if(session('flash_message'))
+    @if(session('error'))
+    <div class="alert alert-danger show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
+        {{ session('error') }}
+    </div>
+    @endif
+    
+    @if(session('success'))
     <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
-        {{ session('flash_message') }}
+        {{ session('success') }}
     </div>
     @endif
 
     <script>
-        // Automatically close the flash message after 3 seconds (3000 milliseconds)
-        setTimeout(function() {
-            document.getElementById('flash-message').style.display = 'none';
-        }, 3000);
+        // JavaScript to automatically close the flash message after 3 seconds
+        window.addEventListener('DOMContentLoaded', function() {
+            var flashMessage = document.getElementById('flash-message');
+            if (flashMessage) {
+                setTimeout(function() {
+                    flashMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
     </script>
+    
 
     <!-- Page Heading -->
     <h1 class="h5 mb-4 text-gray-800">System Codes</h1>
@@ -59,12 +71,18 @@
                             <td>{{ $item->value }}</td>
                             <td>{{ $item->description }}</td>
                             <td class="py-2">
-                                <a class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#codeUpdateModal">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <a class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#codeUpdateModal">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('code.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -76,7 +94,15 @@
 
     @include('admin.modals.code_create')
     @include('admin.modals.code_update')
-    
+
+    <script>
+        function confirmDelete(id) {
+            if (confirm("Are you sure you want to delete this code?")) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
+
 </div>
 
 @endsection

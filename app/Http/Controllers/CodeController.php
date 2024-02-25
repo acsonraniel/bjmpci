@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Code;
+use App\Models\Region;
+use App\Models\Office;
+use App\Models\User;
+use App\Models\Crime;
 use Illuminate\Http\Request;
+use App\Models\OtherModel;
+use Illuminate\Support\Facades\DB;
 
 class CodeController extends Controller
 {
@@ -44,7 +50,7 @@ class CodeController extends Controller
         ]);
 
         $Code = Code::create($validatedData);
-        return redirect('code')->with('flash_message','System Code added succesfuly!');
+        return redirect('code')->with('success','System Code added succesfuly!');
     }
 
     /**
@@ -53,7 +59,7 @@ class CodeController extends Controller
      * @param  \App\Models\Code  $code
      * @return \Illuminate\Http\Response
      */
-    public function show(Code $code)
+    public function show($id)
     {
         //
     }
@@ -87,8 +93,26 @@ class CodeController extends Controller
      * @param  \App\Models\Code  $code
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Code $code)
-    {
-        //
-    }
+
+     public function destroy(Code $code)
+     {
+         // Check if the code is being used in tbl_region
+         $isUsedInRegion = DB::table('tbl_region')->where('rank', $code->id)->exists();
+     
+         // Check if the code is being used in tbl_user
+         $isUsedInUser = DB::table('tbl_users')->where('rank', $code->id)->exists();
+     
+         // Check if the code is being used in tbl_crime
+         $isUsedInCrime = DB::table('tbl_crime')->where('type', $code->id)->orWhere('group', $code->id)->exists();
+     
+         // If the code is being used in any of the tables, prevent deletion
+         if ($isUsedInRegion || $isUsedInUser || $isUsedInCrime) {
+             return redirect()->back()->with('error', 'Cannot delete this code. It is being used in other tables.');
+         }
+     
+         // If the code is not being used, proceed with deletion
+         $code->delete();
+         return redirect()->route('code.index')->with('success', 'Code deleted successfully');
+     }
+     
 }
