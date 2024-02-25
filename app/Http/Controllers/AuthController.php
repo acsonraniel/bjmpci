@@ -22,15 +22,16 @@ class AuthController extends Controller
             'username'=>'required|username',
             'password'=>'required'
         ]);
- 
-        $validated=auth()->attempt([
-            'username'=>$request->username,
-            'password'=>$request->password,
-            'is_user'=>1
-        ],$request->password);
- 
-        if($validated){
-            return redirect()->route('crime');
+    
+        $credentials = $request->only('username', 'password');
+    
+        if(auth()->attempt($credentials)){
+            if(auth()->user()->is_user){
+                return redirect()->route('crime');
+            } else {
+                auth()->logout();
+                return redirect()->back()->with('error','You have to be admin to access this page.');
+            }
         }else{
             return redirect()->back()->with('error','Invalid credentials');
         }

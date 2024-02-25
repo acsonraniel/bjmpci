@@ -22,21 +22,21 @@ Route::get('/', function () {
 
 Route::get('/admin/login',[AuthController::class,'getLogin'])->name('getLogin');
 Route::post('/admin/login',[AuthController::class,'postLogin'])->name('postLogin');
-Route::get('/admin/partials/layout-main',[AuthController::class,'logout'])->name('logout');
 
-Route::get('/admin/crime',[CrimeController::class,'index'])->name('crime');
-Route::get('/admin/user',[UserController::class,'index'])->name('user');
-Route::get('/admin/region',[RegionController::class,'index'])->name('region');
-Route::get('/admin/office',[OfficeController::class,'index'])->name('office');
-Route::get('/admin/code',[CodeController::class,'index'])->name('code');
+Route::group(['middleware'=>['admin_auth']],function(){
+    Route::get('/admin/crime',[CrimeController::class,'index'])->name('crime');
+    Route::get('/admin/user',[UserController::class,'index'])->name('user');
+    Route::get('/admin/region',[RegionController::class,'index'])->name('region');
+    Route::get('/admin/office',[OfficeController::class,'index'])->name('office');
+    Route::get('/admin/code',[CodeController::class,'index'])->name('code');
 
-// Route::post('/region',RegionController::class,'store');
-Route::resource('/code',CodeController::class);
-Route::resource('/region',RegionController::class);
-Route::resource('/office',OfficeController::class);
-Route::resource('/user',UserController::class);
-Route::resource('/crime',CrimeController::class);
+    Route::resource('/code',CodeController::class);
+    Route::resource('/region',RegionController::class);
+    Route::resource('/office',OfficeController::class);
+    Route::resource('/user',UserController::class);
+    Route::resource('/crime',CrimeController::class); 
 
+    Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);
 
-
-Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);
+    Route::get('/admin/partials/layout-main',[AuthController::class,'logout'])->name('logout');
+});
