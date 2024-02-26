@@ -45,7 +45,7 @@ class CodeController extends Controller
         // Validate the request
         $validatedData = $request->validate([
             'category' => 'required',
-            'value' => 'required|max:255',
+            'value' => 'required',
             'description' => 'nullable'
         ]);
     
@@ -86,10 +86,30 @@ class CodeController extends Controller
      * @param  \App\Models\Code  $code
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Code $code)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the incoming request data
+        $request->validate([
+            'category' => 'required',
+            'value' => 'required',
+            'description' => 'nullable',
+        ]);
+    
+        // Find the code item by ID
+        $code = Code::findOrFail($id);
+    
+        // Update the code
+        $code->update([
+            'category' => $request->category,
+            'value' => $request->value,
+            'description' => $request->description,
+        ]);
+    
+        // Return a JSON response indicating success
+        return redirect()->route('code.index')->with('success', 'Code updated successfully');
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
