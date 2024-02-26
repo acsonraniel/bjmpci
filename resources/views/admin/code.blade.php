@@ -8,28 +8,25 @@
 <div class="container-fluid">
     
     @if(session('error'))
-    <div class="alert alert-danger show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
-    
-    @if(session('success'))
-    <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
-
     <script>
-        // JavaScript to automatically close the flash message after 3 seconds
+        // Defer the execution of the alert until after the page has loaded
         window.addEventListener('DOMContentLoaded', function() {
-            var flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(function() {
-                    flashMessage.style.display = 'none';
-                }, 3000);
-            }
+            // Display an alert box for success
+            alert('{{ session('error') }}');
         });
     </script>
+    @endif
+    
+    
+    @if(session('success'))
+    <script>
+        // Defer the execution of the alert until after the page has loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Display an alert box for success
+            alert('{{ session('success') }}');
+        });
+    </script>
+    @endif
     
 
     <!-- Page Heading -->
@@ -95,6 +92,7 @@
     @include('admin.modals.code_create')
     @include('admin.modals.code_update')
 
+    {{-- script for delete button --}}
     <script>
         function confirmDelete(id) {
             if (confirm("Are you sure you want to delete this code?")) {

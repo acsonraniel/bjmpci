@@ -42,17 +42,21 @@ class CodeController extends Controller
      */
     public function store(Request $request)
     {
-        //validate the data request
+        // Validate the request
         $validatedData = $request->validate([
             'category' => 'required',
             'value' => 'required|max:255',
             'description' => 'nullable'
         ]);
-
-        $Code = Code::create($validatedData);
-        return redirect('code')->with('success','System Code added succesfuly!');
+    
+        // Store the data
+        $code = Code::create($validatedData);
+    
+        // Return a JSON response indicating success
+        return response()->json(['success' => true]);
     }
-
+    
+    
     /**
      * Display the specified resource.
      *
