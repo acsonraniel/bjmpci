@@ -7,18 +7,26 @@
 
 <div class="container-fluid">
 
-    @if(session('flash_message'))
-    <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
-        {{ session('flash_message') }}
-    </div>
-    @endif
-
+    @if(session('error'))
     <script>
-        // Automatically close the flash message after 3 seconds (3000 milliseconds)
-        setTimeout(function() {
-            document.getElementById('flash-message').style.display = 'none';
-        }, 3000);
+        // Defer the execution of the alert until after the page has loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Display an alert box for success
+            alert('{{ session('error') }}');
+        });
     </script>
+    @endif
+    
+    
+    @if(session('success'))
+    <script>
+        // Defer the execution of the alert until after the page has loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Display an alert box for success
+            alert('{{ session('success') }}');
+        });
+    </script>
+    @endif
 
     <!-- Page Heading -->
     <h1 class="h5 mb-4 text-gray-800">Offices</h1>
@@ -58,7 +66,7 @@
                         @foreach ($offices as $item)
                             <tr>
                             <td>{{ $item->office }}</td>
-                            <td>{{ $item->abbriv }}</td>
+                            <td>{{ $item->abbrev }}</td>
                             <td>{{ $item->officer }}</td>
                             <td>
                                 @php
@@ -67,12 +75,19 @@
                                 @endphp
                             </td>
                             <td class="py-2">
-                                <a class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#officeUpdateModal">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <a class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#officeUpdateModal{{ $item->id }}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    @include('admin.modals.office_update')
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('office.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -83,8 +98,16 @@
     </div>
     
     @include('admin.modals.office_create')
-    @include('admin.modals.office_update')
     
 </div>
+
+    {{-- script for delete button --}}
+    <script>
+        function confirmDelete(id) {
+            if (confirm("Are you sure you want to delete this code?")) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
 
 @endsection

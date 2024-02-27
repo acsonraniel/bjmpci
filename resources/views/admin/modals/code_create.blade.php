@@ -57,6 +57,9 @@ aria-hidden="true">
     function submitForm(event) {
         event.preventDefault(); // Prevent default form submission
         
+        // Disable the submit button to prevent multiple submissions
+        $('#createBtn').prop('disabled', true);
+
         // Send an asynchronous request to submit the form data
         $.ajax({
             type: 'POST',
@@ -75,7 +78,12 @@ aria-hidden="true">
                 $('#categoryCreateError').html(errors.category ? errors.category[0] : '');
                 $('#valueCreateError').html(errors.value ? errors.value[0] : '');
                 // Handle other validation errors similarly
+            },
+            complete: function() {
+                // Re-enable the submit button after the request is complete
+                $('#createBtn').prop('disabled', false);
             }
         });
     }
 </script>
+

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Office;
 use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfficeController extends Controller
 {
@@ -47,8 +48,11 @@ class OfficeController extends Controller
             'officer' => 'nullable'
         ]);
 
-        $Office = Office::create($validatedData);
-        return redirect('office')->with('flash_message','Office added succesfuly!');
+        // Store the data
+        $office = Office::create($validatedData);
+    
+        // Return a JSON response indicating success
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -93,6 +97,16 @@ class OfficeController extends Controller
      */
     public function destroy(Office $office)
     {
-        //
+        // Check if the code is being used in tbl_user
+        $isUsedInUser = DB::table('tbl_users')->where('office', $office->id)->exists();
+    
+        // If the code is being used in any of the tables, prevent deletion
+        if ($isUsedInUser) {
+            return redirect()->back()->with('error', 'Cannot delete this code. It is being used in other tables.');
+        }
+    
+        // If the code is not being used, proceed with deletion
+        $office->delete();
+        return redirect()->route('office.index')->with('success', 'Code deleted successfully');
     }
 }

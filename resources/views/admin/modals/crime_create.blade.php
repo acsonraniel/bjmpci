@@ -9,7 +9,7 @@
                 </button> -->
             </div>
 
-            <form action="{{ url('crime') }}" method="post">
+            <form id="crimeCreateForm" action="{{ url('crime') }}" method="post" onsubmit="submitForm(event)">
                 @csrf
                 <div class="odal-body px-4 py-3" style="font-size: 0.9em;">
                     <div class="row mb-3">
@@ -36,7 +36,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label for="crime" class="form-label text-primary mb-1">Crime</label>
                         <textarea 
@@ -45,8 +44,8 @@
                             rows="3"
                             id="crime" 
                             name="crime"
-                            required
                         ></textarea>
+                        <div id="crimeCreateError" class="text-danger pl-2 pt-2"></div>
                     </div>
 
                     <label for="" class="form-label text-primary mb-1">Minimum Sentence</label>
@@ -57,8 +56,9 @@
                                 type="number" 
                                 class="form-control" 
                                 id="minYear"
-                                name="minYear"
+                                name="min_year"
                                 value="0"
+                                required
                             >
                         </div>
                         <div class="col">
@@ -67,9 +67,10 @@
                                 type="number"
                                 class="form-control" 
                                 id="minMonth"
-                                name="minMonth"
+                                name="min_month"
                                 max="11"
                                 value="0"
+                                required
                             >
                         </div>
                         <div class="col">
@@ -78,9 +79,10 @@
                                 type="number" 
                                 class="form-control" 
                                 id="minDay"
-                                name="minDay"
+                                name="min_day"
                                 max="30"
                                 value="0"
+                                required
                             >
                         </div>
                     </div>
@@ -93,8 +95,9 @@
                                 type="number" 
                                 class="form-control" 
                                 id="maxYear"
-                                name="maxYear"
+                                name="max_year"
                                 value="0"
+                                required
                             >
                         </div>
                         <div class="col">
@@ -103,9 +106,10 @@
                                 type="number" 
                                 class="form-control" 
                                 id="maxMonth"
-                                name="maxMonth"
+                                name="max_month"
                                 max="11"
                                 value="0"
+                                required
                             >
                         </div>
                         <div class="col">
@@ -114,9 +118,10 @@
                                 type="number" 
                                 class="form-control" 
                                 id="maxDay"
-                                name="maxDay"
+                                name="max_day"
                                 max="30"
                                 value="0"
+                                required
                             >
                         </div>
                     </div>
@@ -133,10 +138,42 @@
                 </div>
                 <div class="modal-footer pb-0 mb-3">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <button id="createBtn" class="btn btn-primary">Submit</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
+
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Disable the submit button to prevent multiple submissions
+        $('#createBtn').prop('disabled', true);
+
+        // Send an asynchronous request to submit the form data
+        $.ajax({
+            type: 'POST',
+            url: $('#crimeCreateForm').attr('action'),
+            data: $('#crimeCreateForm').serialize(),
+            success: function(response) {
+                // If submission is successful, display an alert box
+                alert('Crime added successfully!');
+                
+                // Optionally, you can redirect the user to another page
+                window.location.href = "{{ url('crime') }}";
+            },
+            error: function(xhr, status, error) {
+                // If there are validation errors, display them in the modal
+                var errors = xhr.responseJSON.errors;
+                $('#crimeCreateError').html(errors.crime ? errors.crime[0] : '');
+                // Handle other validation errors similarly
+            },
+            complete: function() {
+                // Re-enable the submit button after the request is complete
+                $('#createBtn').prop('disabled', false);
+            }
+        });
+    }
+</script>

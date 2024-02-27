@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Region;
 use App\Models\Code;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegionController extends Controller
 {
@@ -48,8 +49,11 @@ class RegionController extends Controller
             'landline' => 'nullable'
         ]);
 
-        $Region = Region::create($validatedData);
-        return redirect('region')->with('flash_message','Region added succesfuly!');
+        // Store the data
+        $region = Region::create($validatedData);
+    
+        // Return a JSON response indicating success
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -94,6 +98,19 @@ class RegionController extends Controller
      */
     public function destroy(Region $region)
     {
-        //
+        // Check if the code is being used in tbl_user
+        $isUsedInUser = DB::table('tbl_users')->where('region', $region->id)->exists();
+
+        // Check if the code is being used in tbl_user
+        $isUsedInOffice = DB::table('tbl_office')->where('region', $region->id)->exists();
+    
+        // If the code is being used in any of the tables, prevent deletion
+        if ($isUsedInUser || $isUsedInOffice) {
+            return redirect()->back()->with('error', 'Cannot delete this region. It is being used in other tables.');
+        }
+    
+        // If the code is not being used, proceed with deletion
+        $region->delete();
+        return redirect()->route('region.index')->with('success', 'Region deleted successfully');
     }
 }

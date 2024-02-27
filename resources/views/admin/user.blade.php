@@ -7,18 +7,26 @@
 
 <div class="container-fluid">
     
-    @if(session('flash_message'))
-    <div class="alert alert-success show position-absolute right-0 mr-4" style="font-size: 0.9em; right:0;" id="flash-message" role="alert">
-        {{ session('flash_message') }}
-    </div>
-    @endif
-
+    @if(session('error'))
     <script>
-        // Automatically close the flash message after 3 seconds (3000 milliseconds)
-        setTimeout(function() {
-            document.getElementById('flash-message').style.display = 'none';
-        }, 3000);
+        // Defer the execution of the alert until after the page has loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Display an alert box for success
+            alert('{{ session('error') }}');
+        });
     </script>
+    @endif
+    
+    
+    @if(session('success'))
+    <script>
+        // Defer the execution of the alert until after the page has loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Display an alert box for success
+            alert('{{ session('success') }}');
+        });
+    </script>
+    @endif
 
     <!-- Page Heading -->
     <h1 class="h5 mb-4 text-gray-800">Users</h1>
@@ -39,7 +47,8 @@
                     <thead>
                         <tr>
                             <th>User Type</th>
-                            <th class="fit">Username</th>
+                            <th class="fit">User Status</th>
+                            <th>Username</th>
                             <th>Name</th>
                             <th>Region</th>
                             <th>Office</th>
@@ -49,6 +58,7 @@
                     <tfoot>
                         <tr>
                             <th>User Type</th>
+                            <th>User Stauts</th>
                             <th>Username</th>
                             <th>Name</th>
                             <th>Region</th>
@@ -60,7 +70,10 @@
                         @foreach ($users as $item )
                         <tr>
                             <td>{{ $item->role }}</td>
-                            <td>{{ $item->username}}</td>
+                            <td class="{{ $item->is_user === 1 ? 'text-success' : 'text-danger' }}">
+                                {{ $item->is_user === 1 ? 'Active' : 'Inactive' }}
+                            </td>
+                            <td>{{ $item->username }}</td>
                             <td>
                                 @php
                                 $code = \App\Models\Code::find($item->rank);
@@ -77,16 +90,23 @@
                             <td>
                             @php
                                 $office = \App\Models\Office::find($item->office);
-                                echo $office ? $office->abbriv : 'Unknown Office';
+                                echo $office ? $office->abbrev : 'Unknown Office';
                              @endphp
                             </td>
                             <td class="py-2">
-                                <a href="#" class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#userUpdateModal">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <a class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#userUpdateModal{{ $item->id }}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    @include('admin.modals.user_update')
+                                    {{-- <form id="delete-form-{{ $item->id }}" action="{{ route('user.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form> --}}
+                                </div>
                             </td>
                         </tr>  
                         @endforeach
@@ -97,7 +117,6 @@
     </div>
     
     @include('admin.modals.user_create')
-    @include('admin.modals.user_update')
 
 </div>
 

@@ -82,8 +82,6 @@ function submitForm(event, id) {
         console.error('Error:', error);
     });
 }
-
-
 </script>
 
 
