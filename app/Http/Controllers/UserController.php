@@ -43,11 +43,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'rank' => 'required',
+            'rank' => 'nullable',
             'name' => 'required',
             'region' => 'required',
             'office' => 'required',
-            'username' => 'required',
+            'username' => 'required|alpha_dash',
             'password' => [
                 'required',
                 'string',
@@ -57,7 +57,6 @@ class UserController extends Controller
             'role' => 'required',
             'is_user' => 'required'
         ], [
-            'rank.required' => 'Rank required.',
             'name.required' => 'Please provide a name.',
             'region.required' => 'Please select a region.',
             'office.required' => 'Please select an office.',
@@ -86,34 +85,19 @@ class UserController extends Controller
         
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
-            'rank' => 'required',
+            'rank' => 'nullable',
             'name' => 'required',
             'region' => 'required',
             'office' => 'required',
-            'username' => 'required',
-            // 'password' => [
-            //     'string',
-            //     'min:8',
-            //     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&.,]+$/'
-            // ],
+            'username' => 'required|alpha_dash',
             'role' => 'required',
             'is_user' => 'required',
         ]);
-
-        // Check if validation fails
-        if ($validator->fails()) {
-            // Return JSON response with validation errors
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         
         // Check if validation fails
         if ($validator->fails()) {
             // If validation fails, prepare the error message
             $errorMessage = 'User update failed:';
-            if ($validator->errors()->has('rank')) {
-                $errorMessage .= ' Rank field is missing.';
-            }
             if ($validator->errors()->has('name')) {
                 $errorMessage .= ' Name field is missing.';
             }
@@ -123,8 +107,10 @@ class UserController extends Controller
             if ($validator->errors()->has('office')) {
                 $errorMessage .= ' Office field is missing.';
             }
-            if ($validator->errors()->has('username')) {
-                $errorMessage .= ' Username field is missing.';
+            // Check for username validation errors
+            $usernameError = $validator->errors()->first('username');
+            if ($usernameError) {
+                $errorMessage .= ' ' . $usernameError;
             }
             if ($validator->errors()->has('role')) {
                 $errorMessage .= ' User type field is missing.';

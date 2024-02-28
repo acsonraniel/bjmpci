@@ -94,7 +94,7 @@
                             </td>
                             <td>{{ $crime->bailable == '1' ? 'Yes' : 'No' }}</td>
                             <td class="py-2">
-                                <div class="d-flex justify-content-center">
+                                <div class="d-flex justify-content-center {{ auth()->user()->role === 'Viewer' ? 'invisible' : '' }}">
                                     <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#crimeUpdateModal{{ $crime->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>

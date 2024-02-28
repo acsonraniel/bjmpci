@@ -17,7 +17,7 @@ aria-hidden="true">
                         <div class="col-3">
                             <label for="rank" class="form-label text-primary mb-1">Rank</label>
                             <select class="form-control" id="rank" name="rank">
-                                <option selected value></option>
+                                <option selected value=""></option>
                                 @foreach ($codes as $item)
                                 @if ($item->category === 'Rank')
                                 <option value="{{ $item->id }}">{{ $item->value}}</option>

@@ -18,23 +18,25 @@ class AuthController extends Controller
     }
 
     public function postLogin(Request $request){
-        
+        // Validate user inputs
         $request->validate([
-            'username'=>'required|username',
-            'password'=>'required'
+            'username' => 'required|alpha_dash',
+            'password' => 'required'
         ]);
-    
+
         $credentials = $request->only('username', 'password');
-    
+
         if(auth()->attempt($credentials)){
             if(auth()->user()->is_user){
                 return redirect()->route('crime');
             } else {
-                auth()->logout();
-                return redirect()->back()->with('error','You have to be admin to access this page.');
+                // Logout user if not admin
+                Auth::logout();
+                return redirect()->route('getLogin')->with('error', 'You must be an admin to access this page.');
             }
-        }else{
-            return redirect()->back()->with('error','Invalid credentials');
+        } else {
+            // Authentication failure
+            return redirect()->route('getLogin')->with('error', 'Invalid username or password.');
         }
     }
 
