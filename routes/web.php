@@ -23,20 +23,34 @@ Route::get('/', function () {
 Route::get('/admin/login',[AuthController::class,'getLogin'])->name('getLogin');
 Route::post('/admin/login',[AuthController::class,'postLogin'])->name('postLogin');
 
-Route::group(['middleware'=>['admin_auth']],function(){
-    Route::get('/admin/crime',[CrimeController::class,'index'])->name('crime');
-    Route::get('/admin/user',[UserController::class,'index'])->name('user');
-    Route::get('/admin/region',[RegionController::class,'index'])->name('region');
-    Route::get('/admin/office',[OfficeController::class,'index'])->name('office');
-    Route::get('/admin/code',[CodeController::class,'index'])->name('code');
+Route::group(['middleware' => ['admin_auth']], function () {
+    // Accessible to all authenticated users
+    Route::get('/admin/crime', [CrimeController::class, 'index'])->name('crime');
+    
+    // Accessible to 'Super Admin' and 'Administrator'
+    Route::group(['middleware' => ['check_role:Super Admin,Administrator']], function () {
+        Route::get('/admin/user', [UserController::class, 'index'])->name('user');
+        Route::get('/admin/region', [RegionController::class, 'index'])->name('region');
+        Route::get('/admin/office', [OfficeController::class, 'index'])->name('office');
+        Route::get('/admin/code', [CodeController::class, 'index'])->name('code');
+    });
 
-    Route::resource('/code',CodeController::class);
-    Route::resource('/region',RegionController::class);
-    Route::resource('/office',OfficeController::class);
-    Route::resource('/user',UserController::class);
-    Route::resource('/crime',CrimeController::class); 
+    // Resource routes accessible to 'Administrator' and 'Super Admin'
+    Route::group(['middleware' => ['check_role:Super Admin,Administrator']], function () {
+        Route::resource('/code', CodeController::class);
+        Route::resource('/region', RegionController::class);
+        Route::resource('/office', OfficeController::class);
+        Route::resource('/user', UserController::class);
+        Route::resource('/crime', CrimeController::class);
+    });
 
+    // Additional route
     Route::get('/get-offices/{regionId}', [UserController::class, 'getOffices']);
 
-    Route::get('/admin/partials/layout-main',[AuthController::class,'logout'])->name('logout');
+    // Logout route
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });
+
+
+

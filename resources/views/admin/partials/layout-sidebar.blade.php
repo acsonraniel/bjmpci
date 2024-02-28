@@ -1,5 +1,6 @@
 @php
 $current_route=request()->route()->getName();
+$userRole=auth()->user()->role;
 @endphp
 
 <!-- Sidebar -->
@@ -24,15 +25,18 @@ $current_route=request()->route()->getName();
         </a>
     </li>
 
-    <!-- Nav Item - Users -->
+    <!-- Nav Item - Users (Visible to Super Admin and Administrator) -->
+    @if ($userRole === 'Super Admin')
     <li class="nav-item {{ $current_route=='user'?'active':'' }}">
         <a class="nav-link" href="{{ route('user') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Users</span>
         </a>
     </li>
+    @endif
 
-    <!-- Nav Item - Pages Libraries Menu -->
+    <!-- Nav Item - Pages Libraries Menu (Visible to Super Admin and Administrator) -->
+    @if ($userRole === 'Super Admin' || $userRole === 'Administrator')
     <li class="nav-item {{ $current_route == 'region' || $current_route == 'office' || $current_route == 'code' ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -48,14 +52,17 @@ $current_route=request()->route()->getName();
             </div>
         </div>
     </li>
+    @endif
 
-    <!-- Nav Item - System Logs -->
+    <!-- Nav Item - System Logs (Visible to Super Admin only) -->
+    @if ($userRole === 'Super Admin')
     <li class="nav-item">
         <a class="nav-link logs disabled" href="#">
             <i class="fas fa-fw fa-file-lines"></i>
             <span>System Logs</span>
         </a>
     </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
