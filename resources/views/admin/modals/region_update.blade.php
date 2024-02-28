@@ -27,7 +27,7 @@
                         <div class="col-3">
                             <label for="updateRank{{ $region->id }}" class="form-label text-primary mb-1">Rank</label>
                             <select class="form-control" id="updateRank{{ $region->id }}" name="rank">
-                                <option disabled selected value></option>
+                                <option selected value></option>
                                 @foreach ($codes->where('category', 'Rank') as $rank)
                                 <option value="{{ $rank->id }}" {{ $rank->id == $region->rank ? 'Selected' : '' }}>
                                     {{ $rank->value }}

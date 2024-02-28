@@ -46,34 +46,34 @@
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Region</th>
                             <th>Office Name</th>
                             <th>Abbreviation</th>
                             <th>Head Officer</th>
-                            <th>Region</th>
                             <th class="fit">Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>Region</th>
                             <th>Office Name</th>
                             <th>Abbreviation</th>
                             <th>Head Officer</th>
-                            <th>Region</th>
                             <th class="fit">Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach ($offices as $office)
-                            <tr>
-                            <td>{{ $office->office }}</td>
-                            <td>{{ $office->abbrev }}</td>
-                            <td>{{ $office->officer }}</td>
+                        <tr>
                             <td>
                                 @php
                                 $region = \App\Models\Region::find($office->region);
                                 echo $region ? $region->region : 'Unknown Region';
                                 @endphp
                             </td>
+                            <td>{{ $office->office }}</td>
+                            <td>{{ $office->abbrev }}</td>
+                            <td>{{ $office->officer }}</td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
                                     <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#officeUpdateModal{{ $office->id }}">

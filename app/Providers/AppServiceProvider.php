@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
         //adds 'username' as validator
         Validator::extend('username', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/^[a-zA-Z0-9_]+$/', $value);
+            return preg_match('/^[a-zA-Z0-9_\W]+$/', $value);
         });
     }
 }
