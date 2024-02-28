@@ -8,7 +8,7 @@ use App\Models\Region;
 use App\Models\Office;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash; // Import the Hash facade
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('id', 'desc')->get();
         $codes = Code::all();
         $regions = Region::all();
         $offices = Office::all();
@@ -77,5 +77,99 @@ class UserController extends Controller
     
         return response()->json(['success' => true]);
         
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Find the code item by ID
+        $user = User::findOrFail($id);
+        
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'rank' => 'required',
+            'name' => 'required',
+            'region' => 'required',
+            'office' => 'required',
+            'username' => 'required',
+            // 'password' => [
+            //     'string',
+            //     'min:8',
+            //     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&.,]+$/'
+            // ],
+            'role' => 'required',
+            'is_user' => 'required',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            // Return JSON response with validation errors
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        
+        // Check if validation fails
+        if ($validator->fails()) {
+            // If validation fails, prepare the error message
+            $errorMessage = 'User update failed:';
+            if ($validator->errors()->has('rank')) {
+                $errorMessage .= ' Rank field is missing.';
+            }
+            if ($validator->errors()->has('name')) {
+                $errorMessage .= ' Name field is missing.';
+            }
+            if ($validator->errors()->has('region')) {
+                $errorMessage .= ' Region field is missing.';
+            }
+            if ($validator->errors()->has('office')) {
+                $errorMessage .= ' Office field is missing.';
+            }
+            if ($validator->errors()->has('username')) {
+                $errorMessage .= ' Username field is missing.';
+            }
+            if ($validator->errors()->has('role')) {
+                $errorMessage .= ' User type field is missing.';
+            }
+            if ($validator->errors()->has('is_user')) {
+                $errorMessage .= ' User status field is missing.';
+            }
+            
+            // Redirect back with errors and input
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', $errorMessage);
+        }
+
+        // Update password if provided and meets complexity requirements
+        if ($request->filled('password')) {
+            $passwordValidator = Validator::make($request->all(), [
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&.,]+$/'
+                ],
+            ]);
+
+            if ($passwordValidator->fails()) {
+                // If password fails complexity validation, return with error
+                return redirect()->back()->withErrors($passwordValidator)->withInput()->with('error', 'Password complexity not met.');
+            }
+
+            // Update password
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        // Update the user without password
+        $user->update([
+            'rank' => $request->rank,
+            'name' => $request->name,
+            'region' => $request->region,
+            'office' => $request->office,
+            'username' => $request->username,
+            'role' => $request->role,
+            'is_user' => $request->is_user,
+        ]);
+
+        return redirect()->route('user.index')->with('success', 'User updated successfully');
     }
 }

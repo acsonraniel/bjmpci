@@ -51,7 +51,7 @@ $current_route=request()->route()->getName();
 
     <!-- Nav Item - System Logs -->
     <li class="nav-item">
-        <a class="nav-link logs" href="#">
+        <a class="nav-link logs disabled" href="#">
             <i class="fas fa-fw fa-file-lines"></i>
             <span>System Logs</span>
         </a>

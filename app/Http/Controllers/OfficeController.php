@@ -6,6 +6,7 @@ use App\Models\Office;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class OfficeController extends Controller
 {
@@ -17,7 +18,7 @@ class OfficeController extends Controller
     public function index()
     {
         $offices = Office::all();
-        $regions = Region::all();
+        $regions = Region::orderBy('id', 'asc')->get();
 
         return view('admin.office',['offices'=>$offices,'regions'=>$regions,'title'=>'Offices']);
     }
@@ -84,9 +85,46 @@ class OfficeController extends Controller
      * @param  \App\Models\Office  $office
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Office $office)
+    public function update(Request $request, $id)
     {
-        //
+        // Find the code item by ID
+        $office = Office::findOrFail($id);
+    
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'region' => 'required',
+            'office' => 'required',
+            'abbrev' => 'required',
+            'officer' => 'nullable',
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            // If validation fails, prepare the error message
+            $errorMessage = 'Office update failed:';
+            if ($validator->errors()->has('region')) {
+                $errorMessage .= ' Region field is missing.';
+            }
+            if ($validator->errors()->has('office')) {
+                $errorMessage .= ' Office field is missing.';
+            }
+            if ($validator->errors()->has('abbrev')) {
+                $errorMessage .= ' Abbreviation field is missing.';
+            }
+    
+            // Redirect back with errors and input
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', $errorMessage);
+        }
+    
+        // Update the code
+        $office->update([
+            'region' => $request->region,
+            'office' => $request->office,
+            'abbrev' => $request->abbrev,
+            'officer' => $request->officer,
+        ]);
+    
+        return redirect()->route('office.index')->with('success', 'Office updated successfully');
     }
 
     /**

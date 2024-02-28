@@ -11,12 +11,12 @@
 
             <form id="crimeCreateForm" action="{{ url('crime') }}" method="post" onsubmit="submitForm(event)">
                 @csrf
-                <div class="odal-body px-4 py-3" style="font-size: 0.9em;">
+                <div class="modal-body px-4 py-3" style="font-size: 0.9em;">
                     <div class="row mb-3">
                         <div class="col">
                             <label for="type" class="form-label text-primary mb-1">Crime Type</label>
                             <select type="text" class="form-control" id="type" name="type">
-                                <option disabled selected value></option>
+                                <option selected>Not Applicable</option>
                                 @foreach ($codes as $item)
                                 @if ($item->category === 'Crime Type')
                                 <option value="{{ $item->id }}">{{ $item->value}}</option>
@@ -27,7 +27,7 @@
                         <div class="col">
                             <label for="group" class="form-label text-primary mb-1">Crime Group</label>
                             <select type="text" class="form-control" id="group" name="group">
-                                <option disabled selected value></option>
+                                <option selected>Not Applicable</option>
                                 @foreach ($codes as $item)
                                 @if ($item->category === 'Crime Group')
                                 <option value="{{ $item->id }}">{{ $item->value}}</option>
@@ -48,7 +48,7 @@
                         <div id="crimeCreateError" class="text-danger pl-2 pt-2"></div>
                     </div>
 
-                    <label for="" class="form-label text-primary mb-1">Minimum Sentence</label>
+                    <label class="form-label text-primary mb-1">Minimum Sentence</label>
                     <div class="row mb-3" style="font-size: 0.9em;">
                         <div class="col">
                             <label for="minYear" class="form-label mb-1">Years</label>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <label for="" class="form-label text-primary mb-1">Maximum Sentence</label>
+                    <label class="form-label text-primary mb-1">Maximum Sentence</label>
                     <div class="row mb-3" style="font-size: 0.9em;">
                         <div class="col">
                             <label for="maxYear" class="form-label mb-1">Years</label>

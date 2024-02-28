@@ -67,42 +67,42 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($users as $item )
+                        @foreach ($users as $user )
                         <tr>
-                            <td>{{ $item->role }}</td>
-                            <td class="{{ $item->is_user === 1 ? 'text-success' : 'text-danger' }}">
-                                {{ $item->is_user === 1 ? 'Active' : 'Inactive' }}
+                            <td>{{ $user->role }}</td>
+                            <td class="{{ $user->is_user === 1 ? 'text-success' : 'text-danger' }}">
+                                {{ $user->is_user === 1 ? 'Active' : 'Inactive' }}
                             </td>
-                            <td>{{ $item->username }}</td>
+                            <td>{{ $user->username }}</td>
                             <td>
                                 @php
-                                $code = \App\Models\Code::find($item->rank);
+                                $code = \App\Models\Code::find($user->rank);
                                 echo $code ? $code->value : '';
                                 @endphp
 
-                                {{ $item->name }}</td>
+                                {{ $user->name }}</td>
                             <td>
                             @php
-                                $region = \App\Models\Region::find($item->region);
+                                $region = \App\Models\Region::find($user->region);
                                 echo $region ? $region->region : 'Unknown Region';
                              @endphp
                             </td>
                             <td>
                             @php
-                                $office = \App\Models\Office::find($item->office);
+                                $office = \App\Models\Office::find($user->office);
                                 echo $office ? $office->abbrev : 'Unknown Office';
                              @endphp
                             </td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#userUpdateModal{{ $item->id }}">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#userUpdateModal{{ $user->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     @include('admin.modals.user_update')
-                                    {{-- <form id="delete-form-{{ $item->id }}" action="{{ route('user.destroy', $item->id) }}" method="POST">
+                                    {{-- <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $user->id }}')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form> --}}

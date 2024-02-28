@@ -62,14 +62,14 @@ aria-hidden="true">
                     </div>
 
                     <div class="mb-2">
-                            <label for="username" class="form-label text-primary mb-1">Username</label>
-                            <input 
-                                type="username" 
-                                class="form-control" 
-                                id="username" 
-                                name="username"
-                                >
-                            <div id="usernameCreateError" class="text-danger text-sm pl-2 pt-2"></div>
+                        <label for="username" class="form-label text-primary mb-1">Username</label>
+                        <input 
+                            type="username" 
+                            class="form-control" 
+                            id="username" 
+                            name="username"
+                            >
+                        <div id="usernameCreateError" class="text-danger text-sm pl-2 pt-2"></div>
                     </div>
                     <div class="mb-2">
                         <label for="password" class="form-label text-primary mb-1">Password</label>

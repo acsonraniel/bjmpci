@@ -63,27 +63,27 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($offices as $item)
+                        @foreach ($offices as $office)
                             <tr>
-                            <td>{{ $item->office }}</td>
-                            <td>{{ $item->abbrev }}</td>
-                            <td>{{ $item->officer }}</td>
+                            <td>{{ $office->office }}</td>
+                            <td>{{ $office->abbrev }}</td>
+                            <td>{{ $office->officer }}</td>
                             <td>
                                 @php
-                                $region = \App\Models\Region::find($item->region);
+                                $region = \App\Models\Region::find($office->region);
                                 echo $region ? $region->region : 'Unknown Region';
                                 @endphp
                             </td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#officeUpdateModal{{ $item->id }}">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#officeUpdateModal{{ $office->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     @include('admin.modals.office_update')
-                                    <form id="delete-form-{{ $item->id }}" action="{{ route('office.destroy', $item->id) }}" method="POST">
+                                    <form id="delete-form-{{ $office->id }}" action="{{ route('office.destroy', $office->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $office->id }}')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>

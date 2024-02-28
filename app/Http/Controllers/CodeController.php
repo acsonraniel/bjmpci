@@ -10,6 +10,7 @@ use App\Models\Crime;
 use Illuminate\Http\Request;
 use App\Models\OtherModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CodeController extends Controller
 {
@@ -20,7 +21,7 @@ class CodeController extends Controller
      */
     public function index()
     {
-        $codes = Code::all();
+        $codes = Code::orderBy('category', 'asc')->get();
         return view('admin.code',['codes'=> $codes, 'title'=>'System Codes'] );
     }
 
@@ -88,28 +89,35 @@ class CodeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'category' => 'required',
-            'value' => 'required',
-            'description' => 'nullable',
-        ]);
-    
         // Find the code item by ID
         $code = Code::findOrFail($id);
     
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'value' => 'required',
+            'description' => 'nullable', // Make description required
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            // If validation fails, prepare the error message
+            $errorMessage = 'Code update failed:';
+            if ($validator->errors()->has('value')) {
+                $errorMessage .= ' Value field is missing.';
+            }
+    
+            // Redirect back with errors and input
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', $errorMessage);
+        }
+    
         // Update the code
         $code->update([
-            'category' => $request->category,
             'value' => $request->value,
             'description' => $request->description,
         ]);
     
-        // Return a JSON response indicating success
         return redirect()->route('code.index')->with('success', 'Code updated successfully');
     }
-    
-    
 
     /**
      * Remove the specified resource from storage.

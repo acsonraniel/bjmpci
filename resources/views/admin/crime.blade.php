@@ -46,8 +46,8 @@
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="fit">Type</th>
-                            <th class="fit">Group</th>
+                            <th>Type</th>
+                            <th>Group</th>
                             <th>Crime</th>
                             <th>Min Sentence</th>
                             <th>Max Sentence</th>
@@ -67,42 +67,42 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($crimes as $item)
+                        @foreach ($crimes as $crime)
                         <tr>
                             <td>
                                 @php
-                                    $code = \App\Models\Code::find($item->type);
+                                    $code = \App\Models\Code::find($crime->type);
                                     echo $code ? $code->value : 'N/A';
                                 @endphp
                             </td>
                             <td>
                                 @php
-                                    $code = \App\Models\Code::find($item->group);
+                                    $code = \App\Models\Code::find($crime->group);
                                     echo $code ? $code->value : 'N/A';
                                 @endphp
                             </td>
-                            <td>{{ $item->crime}}</td>
+                            <td>{{ $crime->crime}}</td>
                             <td>
-                                {{ $item->min_year}}<small class="text-muted"> Year/s</small>
-                                {{ $item->min_month}}<small class="text-muted"> Month/s</small>
-                                {{ $item->min_day}}<small class="text-muted"> Day/s</small>
+                                {{ $crime->min_year}}<small class="text-muted"> Year/s</small>
+                                {{ $crime->min_month}}<small class="text-muted"> Month/s</small>
+                                {{ $crime->min_day}}<small class="text-muted"> Day/s</small>
                             </td>
                             <td>
-                                {{ $item->max_year}}<small class="text-muted"> Year/s</small>
-                                {{ $item->max_month}}<small class="text-muted"> Month/s</small>
-                                {{ $item->max_day}}<small class="text-muted"> Day/s</small>
+                                {{ $crime->max_year}}<small class="text-muted"> Year/s</small>
+                                {{ $crime->max_month}}<small class="text-muted"> Month/s</small>
+                                {{ $crime->max_day}}<small class="text-muted"> Day/s</small>
                             </td>
-                            <td>{{ $item->bailable == '1' ? 'Yes' : 'No' }}</td>
+                            <td>{{ $crime->bailable == '1' ? 'Yes' : 'No' }}</td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#crimeUpdateModal{{ $item->id }}">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#crimeUpdateModal{{ $crime->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     @include('admin.modals.crime_update')
-                                    <form id="delete-form-{{ $item->id }}" action="{{ route('crime.destroy', $item->id) }}" method="POST">
+                                    <form id="delete-form-{{ $crime->id }}" action="{{ route('crime.destroy', $crime->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $crime->id }}')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
@@ -118,6 +118,8 @@
 
     @include('admin.modals.crime_create')
 
+</div>
+
     {{-- script for delete button --}}
     <script>
         function confirmDelete(id) {
@@ -126,7 +128,5 @@
             }
         }
     </script>
-
-</div>
 
 @endsection

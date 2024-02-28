@@ -11,54 +11,54 @@
 
             <form id="officeCreateForm" action="{{ url('office') }}" method="post" onsubmit="submitForm(event)">
             @csrf
-            <div class="modal-body px-4 py-3" style="font-size: 0.9em;">
-                <div class="mb-3">
-                    <label for="region" class="form-label text-primary mb-1">Region</label>
-                    <select class="form-control" id="region" name="region">
-                        <option disabled selected value>Select Region</option>
-                        @foreach ($regions as $item)
-                        <option value="{{ $item->id }}">{{ $item->region }}</option>
-                        @endforeach
-                    </select>
-                    <div id="regionCreateError" class="text-danger pl-2 pt-2"></div>
+                <div class="modal-body px-4 py-3" style="font-size: 0.9em;">
+                    <div class="mb-3">
+                        <label for="region" class="form-label text-primary mb-1">Region</label>
+                        <select class="form-control" id="region" name="region">
+                            <option disabled selected value>Select Region</option>
+                            @foreach ($regions as $item)
+                            <option value="{{ $item->id }}">{{ $item->region }}</option>
+                            @endforeach
+                        </select>
+                        <div id="regionCreateError" class="text-danger pl-2 pt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="office" class="form-label text-primary mb-1">Office Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="office" 
+                            name="office"
+                        >
+                        <div id="officeCreateError" class="text-danger pl-2 pt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="abbrev" class="form-label text-primary mb-1">Abbreviation</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="abbrev" 
+                            name="abbrev"
+                        >
+                        <div id="abbrevCreateError" class="text-danger pl-2 pt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="officer" class="form-label text-primary mb-1">Head Officer</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="officer" 
+                            name="officer"
+                        >
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="office" class="form-label text-primary mb-1">Office Name</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="office" 
-                        name="office"
-                    >
-                    <div id="officeCreateError" class="text-danger pl-2 pt-2"></div>
-                </div>
-                <div class="mb-3">
-                    <label for="abbrev" class="form-label text-primary mb-1">Abbreviation</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="abbrev" 
-                        name="abbrev"
-                    >
-                    <div id="abbrevCreateError" class="text-danger pl-2 pt-2"></div>
-                </div>
-                <div class="mb-3">
-                    <label for="officer" class="form-label text-primary mb-1">Head Officer</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="officer" 
-                        name="officer"
-                    >
-                </div>
-            </div>
             
-            <div class="modal-footer pb-0 mb-3">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <input id="createBtn" type="submit" class="btn btn-primary" value="Submit">
-            </div>
+                <div class="modal-footer pb-0 mb-3">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <input id="createBtn" type="submit" class="btn btn-primary" value="Submit">
+                </div>
 
-        </form>
+            </form>
 
         </div>
     </div>
@@ -67,10 +67,10 @@
 <script>
     function submitForm(event) {
         event.preventDefault(); // Prevent default form submission
-
+        
         // Disable the submit button to prevent multiple submissions
         $('#createBtn').prop('disabled', true);
-        
+
         // Send an asynchronous request to submit the form data
         $.ajax({
             type: 'POST',

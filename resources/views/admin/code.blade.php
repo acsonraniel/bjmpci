@@ -62,21 +62,21 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($codes as $item)
+                        @foreach ($codes as $code)
                         <tr>
-                            <td>{{ $item->category }}</td>
-                            <td>{{ $item->value }}</td>
-                            <td>{{ $item->description }}</td>
+                            <td>{{ $code->category }}</td>
+                            <td>{{ $code->value }}</td>
+                            <td>{{ $code->description }}</td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#codeUpdateModal{{ $item->id }}">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#codeUpdateModal{{ $code->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
-                                    @include('admin.modals.code_update')   
-                                    <form id="delete-form-{{ $item->id }}" action="{{ route('code.destroy', $item->id) }}" method="POST">
+                                        @include('admin.modals.code_update')   
+                                    <form id="delete-form-{{ $code->id }}" action="{{ route('code.destroy', $code->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $code->id }}')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
@@ -92,6 +92,8 @@
 
     @include('admin.modals.code_create')
 
+</div>
+
     {{-- script for delete button --}}
     <script>
         function confirmDelete(id) {
@@ -100,7 +102,5 @@
             }
         }
     </script>
-
-</div>
 
 @endsection

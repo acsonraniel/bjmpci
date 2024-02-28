@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Crime;
 use App\Models\Code;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CrimeController extends Controller
 {
@@ -89,9 +89,45 @@ class CrimeController extends Controller
      * @param  \App\Models\Crime  $crime
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Crime $crime)
+    public function update(Request $request, $id)
     {
-        //
+        // Find the code item by ID
+        $crime = Crime::findOrFail($id);
+    
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'type' => 'nullable',
+            'group' => 'nullable',
+            'crime' => 'required',
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            // If validation fails, prepare the error message
+            $errorMessage = 'Crime update failed:';
+            if ($validator->errors()->has('crime')) {
+                $errorMessage .= ' Crime field is missing.';
+            }
+    
+            // Redirect back with errors and input
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', $errorMessage);
+        }
+    
+        // Update the code
+        $crime->update([
+            'type' => $request->type,
+            'group' =>  $request->group,
+            'crime' =>  $request->crime,
+            'min_year' =>  $request->min_year,
+            'min_month' =>  $request->min_month,
+            'min_day' =>  $request->min_day,
+            'max_year' => $request->max_year,
+            'max_month' =>  $request->max_month,
+            'max_day' =>  $request->max_day,
+            'bailable' =>  $request->bailable,
+        ]);
+    
+        return redirect()->route('crime.index')->with('success', 'Crime updated successfully');
     }
 
     /**

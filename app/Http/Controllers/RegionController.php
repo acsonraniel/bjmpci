@@ -6,6 +6,7 @@ use App\Models\Region;
 use App\Models\Code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class RegionController extends Controller
 {
@@ -16,8 +17,8 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $regions = Region::all();
-        $codes = Code::all();
+        $regions = Region::orderBy('id', 'asc')->get();
+        $codes = Code::orderBy('id', 'asc')->get();
 
         return view('admin.region',['regions'=>$regions,'codes'=>$codes,'title'=>'Regions']);
     }
@@ -85,9 +86,42 @@ class RegionController extends Controller
      * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Region $region)
+    public function update(Request $request, $id)
     {
-        //
+        // Find the code item by ID
+        $region = Region::findOrFail($id);
+    
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'region' => 'required',
+            'rank' => 'nullable',
+            'name' => 'nullable',
+            'address' => 'nullable',
+            'landline' => 'nullable',
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            // If validation fails, prepare the error message
+            $errorMessage = 'Region update failed:';
+            if ($validator->errors()->has('region')) {
+                $errorMessage .= ' Region field is missing.';
+            }
+    
+            // Redirect back with errors and input
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', $errorMessage);
+        }
+    
+        // Update the code
+        $region->update([
+            'region' => $request->region,
+            'rank' => $request->rank,
+            'name' => $request->name,
+            'address' => $request->address,
+            'landline' => $request->landline,
+        ]);
+    
+        return redirect()->route('region.index')->with('success', 'Region updated successfully');
     }
 
     /**

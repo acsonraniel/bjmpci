@@ -79,9 +79,6 @@
             <!-- Include Top Bar -->
             <div id="content">
                 @include('admin.partials.layout-topbar')
-            
-                <!-- Main Content -->
-                @yield('content-header')
 
                 @yield('body')
             </div>

@@ -49,7 +49,7 @@
                             <th>Region Name</th>
                             <th>Director</th>
                             <th>Regional Office Address</th>
-                            <th class="fit">Landline</th>
+                            <th>Landline</th>
                             <th class="fit">Action</th>
                         </tr>
                     </thead>
@@ -58,34 +58,34 @@
                             <th>Region Name</th>
                             <th>Director</th>
                             <th>Regional Office Address</th>
-                            <th class="fit">Landline</th>
-                            <th class="fit">Action</th>
+                            <th>Landline</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>       
-                        @foreach ($regions as $item)
+                        @foreach ($regions as $region)
                         <tr>
-                            <td>{{ $item->region }}</td>
+                            <td>{{ $region->region }}</td>
                             <td>
                                 @php
-                                    $code = \App\Models\Code::find($item->rank);
+                                    $code = \App\Models\Code::find($region->rank);
                                     echo $code ? $code->value : '';
                                 @endphp
 
-                                {{ $item->name }}
+                                {{ $region->name }}
                             </td>
-                            <td>{{ $item->address }}</td>
-                            <td>{{ $item->landline }}</td>
+                            <td>{{ $region->address }}</td>
+                            <td>{{ $region->landline }}</td>
                             <td class="py-2">
                                 <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#regionUpdateModal{{ $item->id }}">
+                                    <a class="btn btn-info btn-circle btn-sm mr-2" data-toggle="modal" data-target="#regionUpdateModal{{ $region->id }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     @include('admin.modals.region_update') 
-                                    <form id="delete-form-{{ $item->id }}" action="{{ route('region.destroy', $item->id) }}" method="POST">
+                                    <form id="delete-form-{{ $region->id }}" action="{{ route('region.destroy', $region->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger btn-circle btn-sm" onclick="confirmDelete('{{ $region->id }}')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
@@ -101,6 +101,7 @@
     </div>
 
     @include('admin.modals.region_create')
+
     {{-- script for delete button --}}
     <script>
         function confirmDelete(id) {
