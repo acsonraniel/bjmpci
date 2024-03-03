@@ -84,7 +84,6 @@
                                             <input 
                                                 type="username" 
                                                 class="form-control form-control-user"
-                                                id="" 
                                                 placeholder="Username" 
                                                 name="username">
                                         </div>
@@ -92,7 +91,6 @@
                                             <input 
                                                 type="password" 
                                                 class="form-control form-control-user"
-                                                id="" 
                                                 placeholder="Password" 
                                                 name="password">
                                         </div>

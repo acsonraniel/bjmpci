@@ -16,20 +16,20 @@ class Code extends Model
         'description'
     ];
 
-    protected $guarded = [];
+    // protected $guarded = [];
 
-    public function regions()
-    {
-        return $this->hasMany(Region::class);
-    }
+    // public function regions()
+    // {
+    //     return $this->hasMany(Region::class);
+    // }
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
+    // public function users()
+    // {
+    //     return $this->hasMany(User::class);
+    // }
 
-    public function crimes()
-    {
-        return $this->hasMany(Crime::class);
-    }
+    // public function crimes()
+    // {
+    //     return $this->hasMany(Crime::class);
+    // }
 }

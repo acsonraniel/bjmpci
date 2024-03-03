@@ -59,4 +59,19 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
+    public function rank()
+    {
+        return $this->belongsTo(Code::class, 'rank', 'id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region', 'id');
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class, 'office', 'id');
+    }
 }

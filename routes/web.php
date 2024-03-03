@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Http\Controllers\{AuthController, CrimeController, UserController, RegionController,
-OfficeController, CodeController};
+OfficeController, CodeController, AuditLogController};
 
 
 Route::get('/', function () {
@@ -33,6 +33,7 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::get('/admin/region', [RegionController::class, 'index'])->name('region');
         Route::get('/admin/office', [OfficeController::class, 'index'])->name('office');
         Route::get('/admin/code', [CodeController::class, 'index'])->name('code');
+        Route::get('/admin/audit', [AuditLogController::class, 'index'])->name('audit');
     });
 
     // Resource routes accessible to 'Administrator' and 'Super Admin'

@@ -57,7 +57,7 @@ $userRole=auth()->user()->role;
     <!-- Nav Item - System Logs (Visible to Super Admin only) -->
     @if ($userRole === 'Super Admin')
     <li class="nav-item">
-        <a class="nav-link logs disabled" href="#">
+        <a class="nav-link" href="{{ route('audit') }}">
             <i class="fas fa-fw fa-file-lines"></i>
             <span>System Logs</span>
         </a>

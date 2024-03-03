@@ -82,12 +82,12 @@
                                 @endphp
                             </td>
                             <td>{{ $crime->crime}}</td>
-                            <td>
+                            <td class="text-nowrap">
                                 {{ $crime->min_year}}<small class="text-muted"> Year/s</small>
                                 {{ $crime->min_month}}<small class="text-muted"> Month/s</small>
                                 {{ $crime->min_day}}<small class="text-muted"> Day/s</small>
                             </td>
-                            <td>
+                            <td class="text-nowrap">
                                 {{ $crime->max_year}}<small class="text-muted"> Year/s</small>
                                 {{ $crime->max_month}}<small class="text-muted"> Month/s</small>
                                 {{ $crime->max_day}}<small class="text-muted"> Day/s</small>
