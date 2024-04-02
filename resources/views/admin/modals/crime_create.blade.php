@@ -127,11 +127,18 @@
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-4">
-                            <label for="type" class="form-label text-primary mb-1">Bailable</label>
+                        <div class="col">
+                            <label for="bailable" class="form-label text-primary mb-1">Bailable</label>
                             <select class="form-control" id="bailable" name="bailable">
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="disqualified" class="form-label text-primary mb-1">TA Disqualified</label>
+                            <select class="form-control" id="disqualified" name="bailable">
+                                <option value="1">Yes</option>
+                                <option value="0" selected>No</option>
                             </select>
                         </div>
                     </div>

@@ -24,7 +24,8 @@ class CreateCrimeTable extends Migration
             $table->integer('max_year')->default(0)->nullable();
             $table->integer('max_month')->default(0)->nullable();
             $table->integer('max_day')->default(0)->nullable();
-            $table->boolean('bailable')->default(false);
+            $table->boolean('bailable')->default(true);
+            $table->boolean('ta_disqualified')->default(false);
             $table->timestamps();
         });
     }

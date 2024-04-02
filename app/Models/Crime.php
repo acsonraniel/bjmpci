@@ -21,5 +21,6 @@ class Crime extends Model
         'max_month',
         'max_day',
         'bailable',
+        'ta_disqualified',
     ];
 }

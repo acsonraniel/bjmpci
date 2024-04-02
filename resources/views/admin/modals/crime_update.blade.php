@@ -130,11 +130,18 @@
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-4">
+                        <div class="col">
                             <label for="bailable{{ $crime->id }}" class="form-label text-primary mb-1">Bailable</label>
                             <select class="form-control" id="bailable{{ $crime->id }}" name="bailable">
                                 <option value="1" {{ $crime->bailable == '1' ? 'selected' : '' }}>Yes</option>
                                 <option value="0" {{ $crime->bailable == '0' ? 'selected' : '' }}>No</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="ta_disqualified{{ $crime->id }}" class="form-label text-primary mb-1">TA Disqualified</label>
+                            <select class="form-control" id="bailable{{ $crime->id }}" name="ta_disqualified">
+                                <option value="1" {{ $crime->ta_disqualified == '1' ? 'selected' : '' }}>Yes</option>
+                                <option value="0" {{ $crime->ta_disqualified == '0' ? 'selected' : '' }}>No</option>
                             </select>
                         </div>
                     </div>

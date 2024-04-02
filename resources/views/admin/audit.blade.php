@@ -46,7 +46,6 @@
                                 {{ $auditLog->user->username }}
                             </td>
                             <td class="text-nowrap">{{ $auditLog->user->role }}</td>
-                            <td class="text-nowrap">{{ $auditLog->event }}</td>
                             <td class="text-nowrap">
                                 @php
                                     // Mapping of model names to display names
@@ -67,6 +66,7 @@
                                     echo $displayName;
                                 @endphp
                             </td>
+                            <td class="text-nowrap">{{ $auditLog->event }}</td>
                             <td>
                                 @if($auditLog->event === 'created')
                                     <div>
@@ -82,6 +82,8 @@
                                                         User Status: {{ $value == 1 ? 'Active' : 'Inactive' }}<br>
                                                     @elseif($key === 'bailable')
                                                         Bailable: {{ $value == 1 ? 'Yes' : 'No' }}<br>
+                                                    @elseif($key === 'ta_disqualified')
+                                                        TA Disqualified: {{ $value == 1 ? 'Yes' : 'No' }}<br>
                                                     @elseif($key === 'rank')
                                                         Rank: {{ \App\Models\Code::where('id', $value)->value('value') }}<br>
                                                     @elseif($key === 'type')
@@ -125,6 +127,8 @@
                                                             User Status: {{ $oldValue == 1 ? 'Active' : 'Inactive' }}<br>
                                                         @elseif($key === 'bailable')
                                                             Bailable: {{ $oldValue == 1 ? 'Yes' : 'No' }}<br>
+                                                        @elseif($key === 'ta_disqualified')
+                                                            TA Disqualified: {{ $oldValue == 1 ? 'Yes' : 'No' }}<br>
                                                         @elseif($key === 'rank')
                                                             Rank: {{ \App\Models\Code::where('id', $oldValue)->value('value') }}<br>
                                                         @elseif($key === 'type')
@@ -163,6 +167,8 @@
                                                             User Status: {{ $value == 1 ? 'Active' : 'Inactive' }}<br>
                                                         @elseif($key === 'bailable')
                                                             Bailable: {{ $value == 1 ? 'Yes' : 'No' }}<br>
+                                                        @elseif($key === 'ta_disqualified')
+                                                            TA Disqualified: {{ $value == 1 ? 'Yes' : 'No' }}<br>
                                                         @elseif($key === 'rank')
                                                             Rank: {{ \App\Models\Code::where('id', $value)->value('value') }}<br>
                                                         @elseif($key === 'type')
@@ -203,6 +209,8 @@
                                                         User Status: {{ $value == 1 ? 'Active' : 'Inactive' }}<br>
                                                     @elseif($key === 'bailable')
                                                         Bailable: {{ $value == 1 ? 'Yes' : 'No' }}<br>
+                                                    @elseif($key === 'ta_disqualified')
+                                                        TA Disqualified: {{ $value == 1 ? 'Yes' : 'No' }}<br>
                                                     @elseif($key === 'rank')
                                                         Rank: {{ \App\Models\Code::where('id', $value)->value('value') }}<br>
                                                     @elseif($key === 'region')

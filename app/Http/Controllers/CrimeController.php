@@ -51,6 +51,7 @@ class CrimeController extends Controller
             'max_month' => 'nullable',
             'max_day' => 'nullable',
             'bailable' => 'nullable',
+            'ta_disqualified' => 'nullable',
         ]);
 
         // Store the data
@@ -125,6 +126,7 @@ class CrimeController extends Controller
             'max_month' =>  $request->max_month,
             'max_day' =>  $request->max_day,
             'bailable' =>  $request->bailable,
+            'ta_disqualified' =>  $request->ta_disqualified,
         ]);
     
         return redirect()->route('crime.index')->with('success', 'Crime updated successfully');

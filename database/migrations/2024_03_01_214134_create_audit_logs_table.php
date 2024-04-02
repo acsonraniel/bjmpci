@@ -20,9 +20,8 @@ class CreateAuditLogsTable extends Migration
             $table->string('model')->nullable();
             $table->text('old_value')->nullable();
             $table->string('new_value')->nullable();
-            $table->timestamp('event_time')->nullable(); // Adding the event_time column
-        });
-        
+            $table->timestamps();; // Adding the event_time column
+        });    
     }
 
     /**
